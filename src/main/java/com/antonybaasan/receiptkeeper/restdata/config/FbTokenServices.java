@@ -10,7 +10,9 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FbTokenServices implements ResourceServerTokenServices {
 
     private FbTokenValidator tokenValidator;
