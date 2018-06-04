@@ -9,12 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 import java.io.IOException;
 
 @Configuration
+@EnableWebSecurity
 public class MainConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
@@ -36,10 +38,10 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         return null;
     }
 
-    @Override
-    public void configure(final HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
+//    @Override
+//    public void configure(final HttpSecurity http) throws Exception {
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//    }
 
 
 

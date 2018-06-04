@@ -7,7 +7,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @SpringBootApplication
 @EnableResourceServer
-@EnableWebSecurity
 public class RestdataApplication {
 
 	public static void main(String[] args) {

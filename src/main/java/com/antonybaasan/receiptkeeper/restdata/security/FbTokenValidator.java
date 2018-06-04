@@ -8,8 +8,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class FbTokenValidator {
 
-    public FbUserInfo validate(String token) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-        return new FbUserInfo(decodedToken.getUid(), decodedToken.getName(), decodedToken.getEmail(), token);
+    public FbUserInfo validate(String token) {
+
+        FirebaseToken decodedToken = null;
+        try {
+            decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+            return new FbUserInfo(decodedToken.getUid(), decodedToken.getName(), decodedToken.getEmail(), token);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            //TODO: log
+            System.out.print(e.getMessage());
+        }
+        return null;
     }
 }
