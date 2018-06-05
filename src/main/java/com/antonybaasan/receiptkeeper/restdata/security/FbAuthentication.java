@@ -8,6 +8,7 @@ import java.util.Collection;
 public class FbAuthentication implements Authentication {
 
     private FbUserInfo userInfo;
+    private boolean authenticated;
 
     public FbAuthentication(FbUserInfo userInfo) {
         if (userInfo != null) {
@@ -38,13 +39,15 @@ public class FbAuthentication implements Authentication {
 
     @Override
     public boolean isAuthenticated() {
-        return false;
+        return this.authenticated;
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
+         this.authenticated = isAuthenticated;
     }
+
+
 
     @Override
     public String getName() {
