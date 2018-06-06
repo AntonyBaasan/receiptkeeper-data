@@ -19,12 +19,12 @@ public class ReceiptController {
         this.auth = auth;
     }
 
-    @RequestMapping("/r")
-    public Object getReceipts() {
+    @RequestMapping("/receipts")
+    public List<Receipt> getReceipts() {
 
         String ownerId = auth.getUser().getUid();
-//        Object all = this.repository.findAll();
-        Object all = this.repository.findByOwner(ownerId);
+        List<Receipt> allObjects = this.repository.findAll();
+        List<Receipt> all = this.repository.findByOwner(ownerId);
         return all;
     }
 
