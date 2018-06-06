@@ -18,7 +18,7 @@ public class Receipt {
     private Date insertedDate;
     private double total;
     private String[] tags;
-    private String uid;
+    private String owner;
 
     public long getId() {
         return id;
@@ -76,12 +76,12 @@ public class Receipt {
         this.tags = tags;
     }
 
-    public String getUid() {
-        return uid;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getImageUrl() {
