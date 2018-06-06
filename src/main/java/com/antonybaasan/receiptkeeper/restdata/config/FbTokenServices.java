@@ -3,8 +3,6 @@ package com.antonybaasan.receiptkeeper.restdata.config;
 import com.antonybaasan.receiptkeeper.restdata.security.FbAuthentication;
 import com.antonybaasan.receiptkeeper.restdata.security.FbTokenValidator;
 import com.antonybaasan.receiptkeeper.restdata.security.FbUserInfo;
-import com.google.firebase.auth.FirebaseAuthException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

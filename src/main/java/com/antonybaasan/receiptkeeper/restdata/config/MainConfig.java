@@ -38,11 +38,4 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         return null;
     }
 
-//    @Override
-//    public void configure(final HttpSecurity http) throws Exception {
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//    }
-
-
-
 }
