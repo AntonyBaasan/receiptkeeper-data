@@ -26,16 +26,18 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
     @Value("${firebase.secretfile.path}")
     private String firebaseSecretfilePath;
 
+    @Value("${firebase.database.url}")
+    private String firebaseDatabaseUrl;
+
     @Bean
     public FirebaseApp firebaseApp() {
 
-//        Resource resource = resourceLoader.getResource("classpath:firebase-adminsdk.json");
         Resource resource = resourceLoader.getResource(this.firebaseSecretfilePath);
 
-        FirebaseOptions options = null;
+        FirebaseOptions options;
         try {
             options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
-                    .setDatabaseUrl("https://angularattack2108.firebaseio.com/").build();
+                    .setDatabaseUrl(this.firebaseDatabaseUrl).build();
             return FirebaseApp.initializeApp(options);
         } catch (IOException e) {
             e.printStackTrace();
