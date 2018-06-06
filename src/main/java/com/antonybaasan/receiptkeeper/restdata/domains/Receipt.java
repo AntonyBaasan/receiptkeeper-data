@@ -20,6 +20,9 @@ public class Receipt {
     private String[] tags;
     private String owner;
 
+    public Receipt() {
+    }
+
     public long getId() {
         return id;
     }

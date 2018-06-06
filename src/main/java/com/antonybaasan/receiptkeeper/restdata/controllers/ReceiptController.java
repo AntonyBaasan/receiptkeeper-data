@@ -4,10 +4,10 @@ import com.antonybaasan.receiptkeeper.restdata.domains.Receipt;
 import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ReceiptController {
@@ -19,13 +19,34 @@ public class ReceiptController {
         this.auth = auth;
     }
 
-    @RequestMapping("/receipts")
-    public List<Receipt> getReceipts() {
+    @RequestMapping(value = "/receipts", method = RequestMethod.GET)
+    public Page<Receipt> getReceipts(Pageable pageable) {
 
         String ownerId = auth.getUser().getUid();
-        List<Receipt> allObjects = this.repository.findAll();
-        List<Receipt> all = this.repository.findByOwner(ownerId);
+        Page<Receipt> all = this.repository.findByOwner(ownerId, pageable);
         return all;
+    }
+
+    @RequestMapping(value = "/receipts/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Receipt> getReceipts(@PathVariable("id") Long id) {
+
+        String ownerId = auth.getUser().getUid();
+        Receipt receipt = this.repository.findById(id).get();
+
+        if (receipt.getOwner() == ownerId) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        return new ResponseEntity<>(receipt, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/receipts", method = RequestMethod.POST)
+    public Receipt create(@RequestBody Receipt receipt) {
+
+        String ownerId = auth.getUser().getUid();
+        receipt.setOwner(ownerId);
+
+        return this.repository.save(receipt);
     }
 
 }
