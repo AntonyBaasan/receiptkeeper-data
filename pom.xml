@@ -5,8 +5,8 @@
 
 	<groupId>com.antonybaasan.receiptkeeper</groupId>
 	<artifactId>restdata</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>war</packaging>
 
 	<name>restdata</name>
 	<description>Demo project for Spring Boot</description>
