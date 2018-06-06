@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -22,10 +23,14 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Value("${firebase.secretfile.path}")
+    private String firebaseSecretfilePath;
+
     @Bean
     public FirebaseApp firebaseApp() {
 
-        Resource resource = resourceLoader.getResource("classpath:firebase-adminsdk.json");
+//        Resource resource = resourceLoader.getResource("classpath:firebase-adminsdk.json");
+        Resource resource = resourceLoader.getResource(this.firebaseSecretfilePath);
 
         FirebaseOptions options = null;
         try {
