@@ -39,14 +39,29 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
     @Value("${firebase.database.url}")
     private String firebaseDatabaseUrl;
 
+    @Autowired
+    private FirebaseAdmin firebaseAdmin;
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
+    }
+
     @Bean
     public FirebaseApp firebaseApp() {
 
         Resource resource = getResource();
-
-        FirebaseOptions options;
         try {
-            options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
+            FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
                     .setDatabaseUrl(this.firebaseDatabaseUrl).build();
             return FirebaseApp.initializeApp(options);
         } catch (IOException e) {
@@ -60,19 +75,19 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         Resource resource = resourceLoader.getResource("classpath:" + this.firebaseSecretfileClassPath);
         if (resource.exists()) {
             return resource;
+        } else {
+            this.createFribaseFileIfNotExists(this.firebaseSecretfileFilePath);
+            return resourceLoader.getResource("file:" + this.firebaseSecretfileFilePath);
         }
-
-        this.createFribaseFileIfNotExists(this.firebaseSecretfileFilePath);
-        return resourceLoader.getResource("file:" + this.firebaseSecretfileFilePath);
     }
 
     private void createFribaseFileIfNotExists(String fileName) {
-//        String fileName = "C:/firebase-adminsdk2.json";
-
         deleteFile(fileName);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("website", "www.websparrow.org2222");
+        this.firebaseAdmin.values.forEach((key, val) -> {
+            jsonObject.put(key, val);
+        });
 
         try (FileWriter file = new FileWriter(fileName)) {
             file.write(jsonObject.toString());
@@ -92,20 +107,6 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         } catch (IOException e) {
             System.out.println("Invalid permissions.");
         }
-    }
-
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
     }
 
 }
