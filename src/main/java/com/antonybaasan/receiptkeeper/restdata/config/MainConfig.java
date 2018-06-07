@@ -43,4 +43,20 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         return null;
     }
 
+//    @Bean
+//    public CorsConfigurationSource corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("http://localhost:4200");
+//        config.addAllowedHeader("*");
+//        source.registerCorsConfiguration("/**", config);
+//        return source;
+//    }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+//    }
 }
