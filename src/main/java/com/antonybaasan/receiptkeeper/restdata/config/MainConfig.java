@@ -46,20 +46,18 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         return null;
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("http://localhost:4200");
-//        config.addAllowedHeader("*");
-//        source.registerCorsConfiguration("/**", config);
-//        return source;
-//    }
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
+    }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-//    }
 }
