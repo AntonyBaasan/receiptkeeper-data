@@ -28,7 +28,7 @@ public class ReceiptController {
     }
 
     @RequestMapping(value = "/receipts/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Receipt> getReceipts(@PathVariable("id") Long id) {
+    public ResponseEntity<Receipt> getReceipt(@PathVariable("id") Long id) {
 
         String ownerId = auth.getUser().getUid();
         Receipt receipt = this.repository.findById(id).get();
@@ -41,12 +41,25 @@ public class ReceiptController {
     }
 
     @RequestMapping(value = "/receipts", method = RequestMethod.POST)
-    public Receipt create(@RequestBody Receipt receipt) {
+    public ResponseEntity<Receipt> create(@RequestBody Receipt receipt) {
 
         String ownerId = auth.getUser().getUid();
         receipt.setOwner(ownerId);
 
-        return this.repository.save(receipt);
+
+        return new ResponseEntity<>(this.repository.save(receipt), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/receipts", method = RequestMethod.PUT)
+    public ResponseEntity<Receipt> udpate(@RequestBody Receipt receipt) {
+
+        String ownerId = auth.getUser().getUid();
+        Receipt oldReceipt = this.repository.findById(receipt.getId()).get();
+       if(oldReceipt == null) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+       }
+
+        return new ResponseEntity<>(this.repository.save(receipt), HttpStatus.OK);
     }
 
 }
