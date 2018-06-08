@@ -30,10 +30,10 @@ public class ReceiptController {
     @RequestMapping(value = "/receipts/{id}", method = RequestMethod.GET)
     public ResponseEntity<Receipt> getReceipt(@PathVariable("id") Long id) {
 
-        String ownerId = auth.getUser().getUid();
+        String currentUserId = auth.getUser().getUid();
         Receipt receipt = this.repository.findById(id).get();
 
-        if (receipt.getOwner() == ownerId) {
+        if (!receipt.getOwner().equals(currentUserId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
@@ -53,13 +53,34 @@ public class ReceiptController {
     @RequestMapping(value = "/receipts", method = RequestMethod.PUT)
     public ResponseEntity<Receipt> udpate(@RequestBody Receipt receipt) {
 
-        String ownerId = auth.getUser().getUid();
+        String currentUserId = auth.getUser().getUid();
         Receipt oldReceipt = this.repository.findById(receipt.getId()).get();
-       if(oldReceipt == null) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-       }
+        if (oldReceipt == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        if (!oldReceipt.getOwner().equals(currentUserId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
 
         return new ResponseEntity<>(this.repository.save(receipt), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/receipts/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Receipt> delete(@PathVariable("id") Long id) {
+
+        String currentUserId = auth.getUser().getUid();
+        Receipt oldReceipt = this.repository.findById(id).get();
+        if (oldReceipt == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        if (!oldReceipt.getOwner().equals(currentUserId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        this.repository.deleteById(id);
+        return new ResponseEntity<>(oldReceipt, HttpStatus.OK);
     }
 
 }
