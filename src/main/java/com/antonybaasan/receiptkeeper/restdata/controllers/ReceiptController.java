@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 public class ReceiptController {
     private ReceiptRepository repository;
@@ -64,6 +67,26 @@ public class ReceiptController {
         }
 
         return new ResponseEntity<>(this.repository.save(receipt), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/receipts/selections", method = RequestMethod.DELETE)
+    public ResponseEntity<String> udpateMany(@RequestBody List<Long> ids) {
+
+        String currentUserId = auth.getUser().getUid();
+
+        List<Receipt> receipts = this.repository.findByIdIn(ids);
+
+        Optional<Receipt> invalidReceipt = receipts
+                .stream()
+                .filter(r -> r.getOwner().equals(currentUserId))
+                .findAny();
+        if (invalidReceipt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        int deletedCount = this.repository.deleteAllByIdIn(ids);
+
+        return new ResponseEntity<String>(String.format("Deleted " + deletedCount + " of " + ids.size(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/receipts/{id}", method = RequestMethod.DELETE)
