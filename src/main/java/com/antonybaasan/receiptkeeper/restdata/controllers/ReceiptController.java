@@ -49,7 +49,6 @@ public class ReceiptController {
         String ownerId = auth.getUser().getUid();
         receipt.setOwner(ownerId);
 
-
         return new ResponseEntity<>(this.repository.save(receipt), HttpStatus.OK);
     }
 
@@ -57,12 +56,12 @@ public class ReceiptController {
     public ResponseEntity<Receipt> udpate(@RequestBody Receipt receipt) {
 
         String currentUserId = auth.getUser().getUid();
-        Receipt oldReceipt = this.repository.findById(receipt.getId()).get();
-        if (oldReceipt == null) {
+        Optional<Receipt> oldReceipt = this.repository.findById(receipt.getId());
+        if (!oldReceipt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        if (!oldReceipt.getOwner().equals(currentUserId)) {
+        if (!oldReceipt.get().getOwner().equals(currentUserId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -78,7 +77,7 @@ public class ReceiptController {
 
         Optional<Receipt> invalidReceipt = receipts
                 .stream()
-                .filter(r -> r.getOwner().equals(currentUserId))
+                .filter(r -> !r.getOwner().equals(currentUserId))
                 .findAny();
 
         if (invalidReceipt.isPresent()) {
@@ -94,17 +93,17 @@ public class ReceiptController {
     public ResponseEntity<Receipt> delete(@PathVariable("id") Long id) {
 
         String currentUserId = auth.getUser().getUid();
-        Receipt oldReceipt = this.repository.findById(id).get();
-        if (oldReceipt == null) {
+        Optional<Receipt> oldReceipt = this.repository.findById(id);
+        if (!oldReceipt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        if (!oldReceipt.getOwner().equals(currentUserId)) {
+        if (!oldReceipt.get().getOwner().equals(currentUserId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         this.repository.deleteById(id);
-        return new ResponseEntity<>(oldReceipt, HttpStatus.OK);
+        return new ResponseEntity<>(oldReceipt.get(), HttpStatus.OK);
     }
 
 }
