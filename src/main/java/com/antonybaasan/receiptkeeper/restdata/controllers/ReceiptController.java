@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,15 @@ public class ReceiptController {
     }
 
     @RequestMapping(value = "/receipts", method = RequestMethod.GET)
-    public Page<Receipt> getReceipts(Pageable pageable) {
+    public Page<Receipt> getReceipts(
+            @RequestParam(required = false) String text,
+            @RequestParam(required = false) Date startDate,
+            @RequestParam(required = false) Date endDate,
+            Pageable pageable) {
 
+        System.out.println("text: " + text);
+        System.out.println("startDate: " + startDate);
+        System.out.println("endDate: " + endDate);
         String ownerId = auth.getUser().getUid();
         Page<Receipt> all = this.repository.findByOwner(ownerId, pageable);
         return all;
