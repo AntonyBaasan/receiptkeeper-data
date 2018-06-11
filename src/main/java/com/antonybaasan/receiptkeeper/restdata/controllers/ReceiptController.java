@@ -80,13 +80,14 @@ public class ReceiptController {
                 .stream()
                 .filter(r -> r.getOwner().equals(currentUserId))
                 .findAny();
+
         if (invalidReceipt.isPresent()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         int deletedCount = this.repository.deleteAllByIdIn(ids);
 
-        return new ResponseEntity<String>(String.format("Deleted " + deletedCount + " of " + ids.size(), HttpStatus.OK);
+        return new ResponseEntity<String>(String.format("Deleted " + deletedCount + " of " + ids.size()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/receipts/{id}", method = RequestMethod.DELETE)
