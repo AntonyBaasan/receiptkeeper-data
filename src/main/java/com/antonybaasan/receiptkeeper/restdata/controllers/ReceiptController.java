@@ -3,8 +3,11 @@ package com.antonybaasan.receiptkeeper.restdata.controllers;
 import com.antonybaasan.receiptkeeper.restdata.domains.Receipt;
 import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
+import com.antonybaasan.receiptkeeper.restdata.utils.ReceiptSpecification;
+import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +37,23 @@ public class ReceiptController {
         System.out.println("startDate: " + startDate);
         System.out.println("endDate: " + endDate);
         String ownerId = auth.getUser().getUid();
-        Page<Receipt> all = this.repository.findByOwner(ownerId, pageable);
+
+        ReceiptSpecification ownerIdSpec = new ReceiptSpecification(new SearchCriteria("owner", "=", ownerId));
+
+        Specification<Receipt> spec = Specification.where(ownerIdSpec);
+        if (text != null) {
+//            spec.and(new ReceiptSpecification(new SearchCriteria("title", ":", text)));
+            spec = spec.and(new ReceiptSpecification(new SearchCriteria("description", ":", text)));
+        }
+        if (startDate != null) {
+            spec = spec.and(new ReceiptSpecification(new SearchCriteria("date", ">", startDate)));
+        }
+        if (endDate != null) {
+            spec = spec.and(new ReceiptSpecification(new SearchCriteria("date", "<", endDate)));
+        }
+
+//        Page<Receipt> all = this.repository.findByOwner(ownerId, pageable);
+        Page<Receipt> all = this.repository.findAll(spec, pageable);
         return all;
     }
 
