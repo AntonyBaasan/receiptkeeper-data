@@ -12,8 +12,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
 
     Page<Receipt> findAll(Specification<Receipt> spec, Pageable pageable);
 
-    Page<Receipt> findByOwner(String ownerId, Pageable pageable);
-
     List<Receipt> findByIdIn(List<Long> ids);
 
     int deleteAllByIdIn(List<Long> ids);

@@ -8,6 +8,7 @@ import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,21 +30,26 @@ public class ReceiptController {
     @RequestMapping(value = "/receipts", method = RequestMethod.GET)
     public Page<Receipt> getReceipts(
             @RequestParam(required = false) String text,
-            @RequestParam(required = false) Date startDate,
-            @RequestParam(required = false) Date endDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern="MM/dd/yyyy") Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern="MM/dd/yyyy") Date endDate,
             Pageable pageable) {
 
-        System.out.println("text: " + text);
         System.out.println("startDate: " + startDate);
         System.out.println("endDate: " + endDate);
         String ownerId = auth.getUser().getUid();
 
-        ReceiptSpecification ownerIdSpec = new ReceiptSpecification(new SearchCriteria("owner", "=", ownerId));
+        Specification<Receipt> spec = Specification.where(new ReceiptSpecification(new SearchCriteria("owner", "=", ownerId)));
+        spec = this.updateSpec(spec, text, startDate, endDate);
 
-        Specification<Receipt> spec = Specification.where(ownerIdSpec);
+        Page<Receipt> all = this.repository.findAll(spec, pageable);
+        return all;
+    }
+
+    private Specification<Receipt> updateSpec(Specification<Receipt> spec, String text, Date startDate, Date endDate){
         if (text != null) {
-//            spec.and(new ReceiptSpecification(new SearchCriteria("title", ":", text)));
-            spec = spec.and(new ReceiptSpecification(new SearchCriteria("description", ":", text)));
+            Specification<Receipt> specOr = Specification.where(new ReceiptSpecification(new SearchCriteria("title", ":", text)))
+                    .or(new ReceiptSpecification(new SearchCriteria("description", ":", text)));
+            spec = spec.and(specOr);
         }
         if (startDate != null) {
             spec = spec.and(new ReceiptSpecification(new SearchCriteria("date", ">", startDate)));
@@ -52,9 +58,7 @@ public class ReceiptController {
             spec = spec.and(new ReceiptSpecification(new SearchCriteria("date", "<", endDate)));
         }
 
-//        Page<Receipt> all = this.repository.findByOwner(ownerId, pageable);
-        Page<Receipt> all = this.repository.findAll(spec, pageable);
-        return all;
+        return spec;
     }
 
     @RequestMapping(value = "/receipts/{id}", method = RequestMethod.GET)
