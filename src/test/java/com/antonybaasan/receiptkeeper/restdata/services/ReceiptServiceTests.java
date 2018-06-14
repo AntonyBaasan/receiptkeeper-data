@@ -5,21 +5,22 @@ import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
 import com.antonybaasan.receiptkeeper.restdata.security.FbUserInfo;
 import javassist.NotFoundException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 import static java.util.Optional.ofNullable;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReceiptServiceTests {
 
-    ReceiptService receiptService;
+    ReceiptServiceImpl receiptService;
 
     @Mock
     ReceiptRepository repositoryMock;
@@ -31,7 +32,7 @@ public class ReceiptServiceTests {
 
     @Before
     public void setUp() {
-        receiptService = new ReceiptService(repositoryMock, authMock);
+        receiptService = new ReceiptServiceImpl(repositoryMock, authMock);
 
         currentUser = new FbUserInfo("owner1", "ant", "", "");
     }
@@ -44,9 +45,10 @@ public class ReceiptServiceTests {
 
         when(repositoryMock.findById(receipt.getId())).thenReturn(ofNullable(receipt));
 
-        this.receiptService.delete(receipt.getId());
+        Optional<Receipt> returned = this.receiptService.delete(receipt.getId());
 
         verify(this.repositoryMock, times(1)).delete(receipt);
+        Assert.assertEquals(receipt.getId(), returned.get().getId());
     }
 
     @Test(expected = IllegalAccessException.class)

@@ -3,8 +3,10 @@ package com.antonybaasan.receiptkeeper.restdata.controllers;
 import com.antonybaasan.receiptkeeper.restdata.domains.Receipt;
 import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
+import com.antonybaasan.receiptkeeper.restdata.services.ReceiptService;
 import com.antonybaasan.receiptkeeper.restdata.utils.ReceiptSpecification;
 import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
+import javassist.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,10 +23,12 @@ import java.util.Optional;
 public class ReceiptController {
     private ReceiptRepository repository;
     private AuthFacade auth;
+    private ReceiptService receiptService;
 
-    public ReceiptController(ReceiptRepository repository, AuthFacade auth) {
+    public ReceiptController(ReceiptRepository repository, AuthFacade auth, ReceiptService receiptService) {
         this.repository = repository;
         this.auth = auth;
+        this.receiptService = receiptService;
     }
 
     @RequestMapping(value = "/receipts", method = RequestMethod.GET)
@@ -123,18 +127,15 @@ public class ReceiptController {
     @RequestMapping(value = "/receipts/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Receipt> delete(@PathVariable("id") Long id) {
 
-        String currentUserId = auth.getUser().getUid();
-        Optional<Receipt> oldReceipt = this.repository.findById(id);
-        if (!oldReceipt.isPresent()) {
+        try {
+            Optional<Receipt> oldReceipt = receiptService.delete(id);
+            return new ResponseEntity<>(oldReceipt.get(), HttpStatus.OK);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        if (!oldReceipt.get().getOwner().equals(currentUserId)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        this.repository.deleteById(id);
-        return new ResponseEntity<>(oldReceipt.get(), HttpStatus.OK);
     }
 
 }
