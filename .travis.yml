@@ -25,3 +25,4 @@ deploy:
   region: "us-east-1"
   app: "receiptkeeper-data"
   env: "e-3cg9zhcqeh"
+  bucket_name: "elasticbeanstalk-us-east-1-123766920165"
