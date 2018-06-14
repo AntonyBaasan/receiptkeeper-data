@@ -23,6 +23,11 @@ public class Receipt {
     public Receipt() {
     }
 
+    public Receipt(long id, String owner){
+        this.id = id;
+        this.owner = owner;
+    }
+
     public long getId() {
         return id;
     }
