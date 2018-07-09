@@ -6,7 +6,7 @@
 	<groupId>com.antonybaasan.receiptkeeper</groupId>
 	<artifactId>restdata</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>restdata</name>
 	<description>Demo project for Spring Boot</description>
@@ -99,5 +99,9 @@
 		</plugins>
 	</build>
 
-
+	<configuration>
+		<buildArgs>
+			<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+		</buildArgs>
+	</configuration>
 </project>
