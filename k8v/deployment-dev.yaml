@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiptkeeper-data
+  labels:
+    app: receiptkeeper-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: receiptkeeper-data
+  template:
+    metadata:
+      labels:
+        app: receiptkeeper-data
+    spec:
+      containers:
+      - name: receiptkeeper-data
+        image: antonybaasan/receiptkeeper-data:latest
+        ports:
+        - containerPort: 80
