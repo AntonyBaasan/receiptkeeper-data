@@ -1,16 +1,7 @@
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 
-ENV type $TYPE
-ENV project_id $PROJECT_ID
-ENV private_key_id $PRIVATE_KEY_ID
-ENV private_key $PRIVATE_KEY
-ENV client_email $CLIENT_EMAIL
-ENV client_id $CLIENT_ID
-ENV auth_uri $AUTH_URI
-ENV token_uri $TOKEN_URI
-ENV auth_provider_x509_cert_url $AUTH_PROVIDER_X509_CERT_URL
-ENV client_x509_cert_url $CLIENT_X509_CERT_URL
+ENV FIREBASE_CONFIG $FIREBASE_CONFIG
 
 ARG restdata-0.0.2-SNAPSHOT.jar
 COPY $TRAVIS_BUILD_DIR/target/restdata-0.0.2-SNAPSHOT.jar app.jar
