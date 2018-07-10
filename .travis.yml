@@ -9,8 +9,7 @@ env:
 
 before_install:
   - chmod +x mvnw
-  - echo $FIREBASE_ADMINSDK | base64 --decode -i > $/src/main/resources/firebase-adminsdk.json
-  - - openssl aes-256-cbc -k "$super_secret_password" -in $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.enc -out $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json -d
+  - openssl aes-256-cbc -k "$super_secret_password" -in $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.enc -out $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json -d
 
 script:
 - mvn -N io.takari:maven:wrapper
