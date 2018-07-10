@@ -16,13 +16,3 @@ cache:
   directories:
   - $HOME/.m2
 
-deploy:
-  skip_cleanup: true
-  provider: elasticbeanstalk
-  access_key_id: $ACCESSKEYID
-  secret_access_key:
-    secure: $SECRETACCESSKEY
-  region: "us-east-2"
-  app: "Bookingpreneur"
-  env: "Bookingpreneur-env"
-  bucket_name: "elasticbeanstalk-us-east-2-123766920165"
