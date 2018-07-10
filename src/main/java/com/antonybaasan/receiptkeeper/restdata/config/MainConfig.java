@@ -64,10 +64,14 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
             FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
                     .setDatabaseUrl(this.firebaseDatabaseUrl).build();
             return FirebaseApp.initializeApp(options);
+
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-        return null;
+
+        System.out.println("Can't find/read firebase admin sdk file. Initializing from FIREBASE_CONFIG!");
+        return FirebaseApp.initializeApp();
     }
 
     private Resource getResource() {
