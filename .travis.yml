@@ -9,8 +9,8 @@ before_install:
 
 script:
 - mvn -N io.takari:maven:wrapper
-- ./mvnw clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 - ./mvnw cobertura:cobertura
+- ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -19,7 +19,7 @@ cache:
   directories:
   - $HOME/.m2
 
-after_deploy:
+after_script:
   - docker image build -f Dockerfile_Travis --tag $DOCKER_REPO
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - docker push $DOCKER_REPO
