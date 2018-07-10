@@ -20,5 +20,6 @@ cache:
   - $HOME/.m2
 
 deploy:
-  provider: script
-  script: bash docker_push.sh
+  - docker image build -f Dockerfile_Travis --tag $DOCKER_REPO
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker push $DOCKER_REPO
