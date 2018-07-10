@@ -3,11 +3,14 @@ jdk: oraclejdk8
 
 services:
   - docker
+env:
+  global:
+    secure: Eb7gbiyn6WlQno3A6M1cVk9ODMLPqsUGN6ysoQkHdJ3mkfMhHRnzEBj8HUEYrrlMj8cgwLcgLOb3TT6/k/lVZPgeqM+LpZk5SiyinfshI8dM5tNDLS804m0JUqh3qW+FaTVZPVOdM9nKP76PIO8vdYjt/SJ01xOhRhi1U0v0f5RRUh8oW/Ob1r11r5CdlGVO7WdQj2GmC2A0kDb+4TQGZAINSlliWYlb5YUvwtCfbq0bwLHomKAS+ovev3tW5YWCEeA8nlzUVaSGa2Bl5lPMZguFlB0HSdIvLqn0cI/k9pHdmoTGJRQfEwRWNWec+oblIcY5w7l0ZtXmReKABf30MNA2gBLALe60fJ95QfE4G6gEfTy6RyWQz+vJ9c+ZFCh9YVOjJhHrKHVNyhJJQis5V/5DqirHA7Oy1xNNjX7Wjw6PgmWLYBjnwCO1Nbn7lH7XqHsCoqckKB0JXkkiZ4iAkBXiIywzA6W4ZaBJ28fB3jgwuxdCwpoN7MO3DMTB2HbewxqOZ/Eec59bIa0PUOwKlFMSSlBNohSkNzZAsqBpgXVy8MhEVGsmHlXr1uXecdvzR2sdLe6W3WydcJFcrj5zQ79ngjos9Spw8FxNEUWy7eYvdkdS1laH9t745gEoIq46YJzsW2jjV89bwBmiKz7C7jp90tH2nbttCK3PJ0DPlDQ=
 
 before_install:
   - chmod +x mvnw
-  - echo $FIREBASE_ADMINSDK | base64 --decode -i > $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json
-  - openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.enc -out $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json -d
+  - echo $FIREBASE_ADMINSDK | base64 --decode -i > $/src/main/resources/firebase-adminsdk.json
+  - - openssl aes-256-cbc -k "$super_secret_password" -in $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.enc -out $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json -d
 
 script:
 - mvn -N io.takari:maven:wrapper
