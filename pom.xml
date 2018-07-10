@@ -98,10 +98,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<configuration>
-		<buildArgs>
-			<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-		</buildArgs>
-	</configuration>
 </project>
