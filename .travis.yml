@@ -1,10 +1,9 @@
 language: java
 jdk: oraclejdk8
-env: OPENSSL=1.1.0
 
 services:
   - docker
-  
+
 env:
   global:
     secure: xehocSRLA1hkoSnniroNijc62yx9Cgn/auX8NGZ7qBRBJ5R19OWwxUN1H0IjBfugRGAHrmF6W0KROF8z955nuK0QFfvJpqxhAXwrOBxk7rmZxXICbnwGq9+pj+58PcHhtEcI6otZOJYm3dIH3DZm/3worgyBIrICfYaLMxiV6K2mHqz3FYdGq67fhjZn0cVU4erhfMinLQJUHLufk66MLrlfrVF0HZb7695cOWHkVzt9pwwHvBVi3rfk2KPwBwcUn7y4o2rHI3pio+FMPbmgsXqfThXGczdMn7ZbM2LNYX7/9l0ocfEOwajCOI8oMn+kQJaKDpqnfR9S47lVdtLA4BCzKBQUpIqDD9NNmn8EJVlcK/f3iKphyrCDIMeM9i3KiKJhxH0hOb0mbKd93PN3AX7ic+Bq/gxstPsbTSuvbtJcPnKDRe8c4UjzjJWIcwhhyreSkmPdHDr54lwf/EgZ7q9DbVl+wGdcIdiIdTResMfTJGM9eek9/gmKDCJDSHU145rL9y+E43r2SWzt7drG8e1FLJfEiv/elbYVZblVB0PrYU3q4zFUSmXEx+5QG5qqTrQrkVPPd4msZctT73+EavduqG08IvrYmUT43cg/FaAdNDCtsRqFc7/W8AifsijajEiH0p2xavAZzjsrJX9j61f2nVuZDNsynjPrxdFbhk4=
@@ -13,6 +12,7 @@ before_install:
   - chmod +x mvnw
   - ls $TRAVIS_BUILD_DIR
   - echo $super_secret_password
+  - apt-get install openssl
   - openssl version
   - openssl aes-256-cbc -k $super_secret_password -in $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.enc -out $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json -d
 
