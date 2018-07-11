@@ -1,27 +1,24 @@
 language: java
 jdk: oraclejdk8
-
 services:
-  - docker
-
+- docker
 before_install:
-  - chmod +x mvnw
-  - ls $TRAVIS_BUILD_DIR
-  - echo $super_secret_password
-
+- chmod +x mvnw
+- ls $TRAVIS_BUILD_DIR
+- echo $GPG_KEY | gpg --passphrase-fd 0 --decrypt $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.gpg --output $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json
 script:
 - mvn -N io.takari:maven:wrapper
-- ./mvnw cobertura:cobertura
-- ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
+- "./mvnw cobertura:cobertura"
+- "./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
+- bash <(curl -s https://codecov.io/bash)
 cache:
   directories:
-  - $HOME/.m2
-
+  - "$HOME/.m2"
 after_script:
-  - docker image build -f Dockerfile_Travis . --tag $DOCKER_REPO
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker push $DOCKER_REPO
+- docker image build -f Dockerfile_Travis . --tag $DOCKER_REPO
+- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+- docker push $DOCKER_REPO
+env:
+  global:
+    secure: Uifod8oP3DUaWGyqNG1FEvmrMyhaUDMPLQ0kOmhH0IfTfyh+aAAqBg1BwlLweu6C6JBJUGQmely8IMRvKlBlyVsuBZ6KWPNRHyjEea/CCz1I2NMQPBlud+D3FzDl5s8s1kYZIWn1AUZ7Ccg3z0PcU2Og5QtM5Lt4QbIdgpdS9O11UfAKhJTMRnhYp15zM/eiQiplD+wQg/W66pqYufNTXxUGRRQMd0cuaEsTctUn8TAAzycDXI0NAHC2sScfG8YN0Kx4lZhE5iRwaRGQ8Y50nAphZp9ik29od2zsG/GtgpINOqJAPCD4PMFf2Lzi/Ae+yNqvxG3s5co7Xm3+xc8ybbOlFjCeeIsMC8ZXx8kS0zIN+wYMVb8nJV+3yV8hcSyCp/72CcvFfEJMWAryWomK/FUqnRdDKFbu4wsMMazUTayhBpOq7Yf15fF88L4KcLXBTd+xpdCcSvFXSBlVOBjeio82y+RHj2Bihkmypaof1ZKYyzawcvd3oUIgqhQ22kgDLkBRqqgvMbjAEIBKSiIp/c51dCsqfcNXJDzSnwMGZOgpp97QKKt9hClRLBgNeG1ZOXiGiFiwWWQ1fjj6vP28Yrro/kvlILjxd9PhwGvHMkbB3sZvHbRaSDHpFxcXGjM56E86quRSmWSga254jkDoFDapHrTAlwilGzK8ICnL4fQ=
