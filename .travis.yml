@@ -5,7 +5,7 @@ services:
 before_install:
 - chmod +x mvnw
 - ls $TRAVIS_BUILD_DIR
-- echo $GPG_KEY | gpg --passphrase-fd 0 --decrypt $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.gpg --output $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json
+- echo $GPG_KEY | gpg --passphrase-fd 0 $TRAVIS_BUILD_DIR/src/main/resources/firebase-adminsdk.json.gpg
 script:
 - mvn -N io.takari:maven:wrapper
 - "./mvnw cobertura:cobertura"
