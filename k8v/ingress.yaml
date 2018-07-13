@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rk-data-ingress
+spec:
+  tls:
+  - secretName: rk-data-tls-self
+  backend:
+    serviceName: rk-data-6jjn4
+    servicePort: 80

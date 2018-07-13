@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: receiptkeeper-data
+  name: rk-data
   labels:
-    app: receiptkeeper-data
+    app: rk-data
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: receiptkeeper-data
+      app: rk-data
   template:
     metadata:
       labels:
-        app: receiptkeeper-data
+        app: rk-data
     spec:
       containers:
-      - name: receiptkeeper-data
+      - name: rk-data
         image: antonybaasan/receiptkeeper-data:latest
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: registrycred

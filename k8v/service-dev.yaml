@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: receiptkeeper-data
+  name: rk-data-service
   labels:
     run: receiptkeeper-data
 spec:
@@ -10,3 +10,21 @@ spec:
     protocol: TCP
   selector:
     run: receiptkeeper-data
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rk-data
+  name: rk-data-service
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 30058
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: rk-data
+  type: LoadBalancer
