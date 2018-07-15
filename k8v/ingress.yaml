@@ -6,5 +6,5 @@ spec:
   tls:
   - secretName: rk-data-tls-self
   backend:
-    serviceName: rk-data-6jjn4
+    serviceName: rk-data-nfj72 	
     servicePort: 80
