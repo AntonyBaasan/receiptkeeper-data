@@ -17,7 +17,7 @@ cache:
   directories:
   - "$HOME/.m2"
 after_script:
-- docker image build -f Dockerfile_Travis . --tag $DOCKER_REPO
+- ./mvnw dockerfile:build
 - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 - docker push $DOCKER_REPO
 env:
