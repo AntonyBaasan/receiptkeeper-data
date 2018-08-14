@@ -95,6 +95,11 @@
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-maven-plugin</artifactId>
+            <version>3.4.1</version>
+        </dependency>
 
         <!--private dependencies-->
         <dependency>
@@ -154,6 +159,14 @@
                         <version>1.1.1</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+                </configuration>
             </plugin>
         </plugins>
     </build>
