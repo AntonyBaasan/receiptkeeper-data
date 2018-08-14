@@ -5,7 +5,7 @@
 
     <groupId>com.antonybaasan.receiptkeeper</groupId>
     <artifactId>restdata</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>jar</packaging>
 
     <name>restdata</name>
@@ -100,6 +100,12 @@
             <artifactId>liquibase-maven-plugin</artifactId>
             <version>3.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.0.0</version>
+        </dependency>
+
 
         <!--private dependencies-->
         <dependency>

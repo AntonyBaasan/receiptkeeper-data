@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="antony (generated)" id="1534215119525-1">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="antony (generated)" id="1534215119525-2">
+        <createTable tableName="receipt">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="image_url" type="VARCHAR(255)"/>
+            <column name="inserted_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="owner" type="VARCHAR(255)"/>
+            <column name="tags" type="BYTEA"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="total" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="antony (generated)" id="1534215119525-3">
+        <addPrimaryKey columnNames="id" constraintName="receipt_pkey" tableName="receipt"/>
+    </changeSet>
+</databaseChangeLog>

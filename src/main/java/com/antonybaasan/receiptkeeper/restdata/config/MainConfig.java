@@ -3,6 +3,7 @@ package com.antonybaasan.receiptkeeper.restdata.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -17,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
@@ -30,6 +32,9 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
 
     @Value("${firebase.database.url}")
     private String firebaseDatabaseUrl;
+
+    @Autowired
+    DataSource dataSource;
 
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
@@ -60,5 +65,13 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
+    }
+
+    @Bean
+    public SpringLiquibase liquibase() {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog("classpath:liquibase-outputChangeLog.xml");
+        liquibase.setDataSource(dataSource);
+        return liquibase;
     }
 }
