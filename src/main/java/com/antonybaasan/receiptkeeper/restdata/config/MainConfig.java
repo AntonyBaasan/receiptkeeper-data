@@ -67,11 +67,4 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
                 .anyRequest().authenticated();
     }
 
-    @Bean
-    public SpringLiquibase liquibase() {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:liquibase-outputChangeLog.xml");
-        liquibase.setDataSource(dataSource);
-        return liquibase;
-    }
 }
