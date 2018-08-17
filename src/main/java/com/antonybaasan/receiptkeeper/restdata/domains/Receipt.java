@@ -19,8 +19,6 @@ public class Receipt {
     private double total;
     private String[] tags;
     private String owner;
-    private String testColumn;
-    private String testColumn2;
 
     public Receipt() {
     }
