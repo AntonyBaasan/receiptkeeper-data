@@ -7,12 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ItemsController {
+public class TestController {
 
     @Autowired
     private AuthFacade authFacade;
 
-    @RequestMapping("/items")
+    @RequestMapping("/")
+    public String ok() {
+
+        return "OK";
+    }
+
+    @RequestMapping("/test")
     public String getAllItems() throws Exception {
 
         FbUserInfo user = this.authFacade.getUser();

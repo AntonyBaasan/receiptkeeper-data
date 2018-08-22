@@ -1,4 +1,4 @@
-package com.antonybaasan.receiptkeeper.restdata.domains;
+package com.antonybaasan.receiptkeeper.restdata.model;
 
 import javax.persistence.*;
 import java.util.Date;

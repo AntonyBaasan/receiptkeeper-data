@@ -1,6 +1,6 @@
 package com.antonybaasan.receiptkeeper.restdata.utils;
 
-import com.antonybaasan.receiptkeeper.restdata.domains.Receipt;
+import com.antonybaasan.receiptkeeper.restdata.model.Receipt;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
