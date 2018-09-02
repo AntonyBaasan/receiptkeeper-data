@@ -61,7 +61,8 @@ public class RecordServiceImpl implements RecordService {
         }
 
         String currentUserId = auth.getUser().getUid();
-        if (!oldReceipt.get().getOwner().equals(currentUserId)) {
+        long userId = Long.parseLong(currentUserId);
+        if (oldReceipt.get().getOwner().getId() != userId) {
             throw new IllegalAccessException();
         }
 

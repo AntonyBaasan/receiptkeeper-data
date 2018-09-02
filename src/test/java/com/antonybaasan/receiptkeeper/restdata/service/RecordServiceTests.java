@@ -6,6 +6,7 @@ import com.antonybaasan.receiptkeeper.restdata.repositories.RecordRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
 import com.antonybaasan.receiptkeeper.restdata.security.FbUserInfo;
 import com.antonybaasan.receiptkeeper.restdata.serviceimpl.RecordServiceImpl;
+import javassist.NotFoundException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,21 +40,21 @@ public class RecordServiceTests {
     public void setUp() {
         recordService = new RecordServiceImpl(repositoryMock, authMock, userProfileService);
         currentUser = new FbUserInfo("1", "ant", "", "");
-        currentUserProfile = createUserProfile();
+        currentUserProfile = createUserProfile(1);
         when(authMock.getUser()).thenReturn(currentUser);
         when(userProfileService.getUserById(currentUser.getUid())).thenReturn(currentUserProfile);
     }
 
-    private UserProfile createUserProfile(){
+    private UserProfile createUserProfile(long id) {
         UserProfile userProfile = new UserProfile();
-        userProfile.setId(1);
+        userProfile.setId(id);
         userProfile.setFirstName("Antony");
         userProfile.setLastName("Baasan");
         return userProfile;
     }
 
     @Test
-    public void createSingleReceipt_Success(){
+    public void createSingleReceipt_Success() {
         Record record = new Record();
         recordService.create(record);
         verify(this.repositoryMock,
@@ -61,12 +62,51 @@ public class RecordServiceTests {
     }
 
     @Test
-    public void create_SetOwner_Success(){
+    public void create_SetOwner_Success() {
         Record record = new Record();
         recordService.create(record);
+        Assert.assertEquals(record.getOwner(), currentUserProfile);
+    }
+
+    @Test
+    public void update_Success() throws NotFoundException, IllegalAccessException {
+        Record record = new Record();
+        record.setOwner(currentUserProfile);
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+
+        recordService.update(record);
+
         verify(this.repositoryMock,
                 times(1)).save(record);
-        Assert.assertEquals(record.getOwner(), currentUserProfile);
+    }
+
+    @Test
+    public void update_RecordNotExist_Fail() {
+        Throwable e = null;
+        Record record = new Record();
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.empty());
+
+        try {
+            recordService.update(record);
+        } catch (Throwable ex) {
+            e = ex;
+        }
+        Assert.assertTrue(e instanceof NotFoundException);
+    }
+
+    @Test
+    public void update_RecordNotBelongUser_Fail() {
+        Throwable e = null;
+        Record record = new Record();
+        record.setOwner(createUserProfile(2));
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+
+        try {
+            recordService.update(record);
+        } catch (Throwable ex) {
+            e = ex;
+        }
+        Assert.assertTrue(e instanceof IllegalAccessException);
     }
 
 //    @Test
