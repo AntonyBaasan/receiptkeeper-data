@@ -1,9 +1,11 @@
-package com.antonybaasan.receiptkeeper.restdata.services;
+package com.antonybaasan.receiptkeeper.restdata.serviceimpl;
 
 import com.antonybaasan.receiptkeeper.restdata.model.Record;
 import com.antonybaasan.receiptkeeper.restdata.model.User;
 import com.antonybaasan.receiptkeeper.restdata.repositories.RecordRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
+import com.antonybaasan.receiptkeeper.restdata.service.RecordService;
+import com.antonybaasan.receiptkeeper.restdata.service.UserService;
 import com.antonybaasan.receiptkeeper.restdata.utils.RecordSpecification;
 import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
 import javassist.NotFoundException;

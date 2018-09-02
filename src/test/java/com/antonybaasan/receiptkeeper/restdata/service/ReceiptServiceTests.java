@@ -1,9 +1,10 @@
-package com.antonybaasan.receiptkeeper.restdata.services;
+package com.antonybaasan.receiptkeeper.restdata.service;
 
 import com.antonybaasan.receiptkeeper.restdata.model.Receipt;
 import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
 import com.antonybaasan.receiptkeeper.restdata.security.FbUserInfo;
+import com.antonybaasan.receiptkeeper.restdata.serviceimpl.ReceiptServiceImpl;
 import javassist.NotFoundException;
 import org.junit.Assert;
 import org.junit.Before;

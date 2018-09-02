@@ -1,7 +1,7 @@
 package com.antonybaasan.receiptkeeper.restdata.controllers;
 
 import com.antonybaasan.receiptkeeper.restdata.model.User;
-import com.antonybaasan.receiptkeeper.restdata.services.UserService;
+import com.antonybaasan.receiptkeeper.restdata.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

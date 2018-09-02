@@ -1,7 +1,7 @@
 package com.antonybaasan.receiptkeeper.restdata.controllers;
 
 import com.antonybaasan.receiptkeeper.restdata.model.Record;
-import com.antonybaasan.receiptkeeper.restdata.services.RecordService;
+import com.antonybaasan.receiptkeeper.restdata.service.RecordService;
 import javassist.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

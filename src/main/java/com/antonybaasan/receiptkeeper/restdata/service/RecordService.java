@@ -1,4 +1,4 @@
-package com.antonybaasan.receiptkeeper.restdata.services;
+package com.antonybaasan.receiptkeeper.restdata.service;
 
 import com.antonybaasan.receiptkeeper.restdata.model.Record;
 import javassist.NotFoundException;

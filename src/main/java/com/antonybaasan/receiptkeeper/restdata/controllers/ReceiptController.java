@@ -3,7 +3,7 @@ package com.antonybaasan.receiptkeeper.restdata.controllers;
 import com.antonybaasan.receiptkeeper.restdata.model.Receipt;
 import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
-import com.antonybaasan.receiptkeeper.restdata.services.ReceiptService;
+import com.antonybaasan.receiptkeeper.restdata.service.ReceiptService;
 import com.antonybaasan.receiptkeeper.restdata.utils.ReceiptSpecification;
 import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
 import javassist.NotFoundException;

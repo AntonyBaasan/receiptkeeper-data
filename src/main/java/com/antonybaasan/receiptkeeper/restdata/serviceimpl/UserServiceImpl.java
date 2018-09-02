@@ -1,7 +1,8 @@
-package com.antonybaasan.receiptkeeper.restdata.services;
+package com.antonybaasan.receiptkeeper.restdata.serviceimpl;
 
 import com.antonybaasan.receiptkeeper.restdata.model.User;
 import com.antonybaasan.receiptkeeper.restdata.repositories.UsersRepository;
+import com.antonybaasan.receiptkeeper.restdata.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

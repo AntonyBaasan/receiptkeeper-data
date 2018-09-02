@@ -1,8 +1,9 @@
-package com.antonybaasan.receiptkeeper.restdata.services;
+package com.antonybaasan.receiptkeeper.restdata.serviceimpl;
 
 import com.antonybaasan.receiptkeeper.restdata.model.Receipt;
 import com.antonybaasan.receiptkeeper.restdata.repositories.ReceiptRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
+import com.antonybaasan.receiptkeeper.restdata.service.ReceiptService;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
