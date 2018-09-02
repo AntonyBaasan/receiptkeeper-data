@@ -1,6 +1,7 @@
 package com.antonybaasan.receiptkeeper.restdata.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotNull
     private String userName;
     private String firstName;
     private String lastName;
