@@ -16,12 +16,12 @@ public class Record {
     private double total;
     private String[] tags;
     @ManyToOne
-    private User owner;
+    private UserProfile owner;
 
     public Record() {
     }
 
-    public Record(long id, User owner){
+    public Record(long id, UserProfile owner){
         this.id = id;
         this.owner = owner;
     }
@@ -82,11 +82,11 @@ public class Record {
         this.tags = tags;
     }
 
-    public User getOwner() {
+    public UserProfile getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(UserProfile owner) {
         this.owner = owner;
     }
 

@@ -1,11 +1,11 @@
 package com.antonybaasan.receiptkeeper.restdata.serviceimpl;
 
 import com.antonybaasan.receiptkeeper.restdata.model.Record;
-import com.antonybaasan.receiptkeeper.restdata.model.User;
+import com.antonybaasan.receiptkeeper.restdata.model.UserProfile;
 import com.antonybaasan.receiptkeeper.restdata.repositories.RecordRepository;
 import com.antonybaasan.receiptkeeper.restdata.security.AuthFacade;
 import com.antonybaasan.receiptkeeper.restdata.service.RecordService;
-import com.antonybaasan.receiptkeeper.restdata.service.UserService;
+import com.antonybaasan.receiptkeeper.restdata.service.UserProfileService;
 import com.antonybaasan.receiptkeeper.restdata.utils.RecordSpecification;
 import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
 import javassist.NotFoundException;
@@ -23,14 +23,14 @@ public class RecordServiceImpl implements RecordService {
 
     private RecordRepository repository;
     private AuthFacade auth;
-    private UserService userService;
+    private UserProfileService userProsProfileService;
 
     private String notFoundText = "Can't find record with id %d";
 
-    public RecordServiceImpl(RecordRepository repository, AuthFacade auth, UserService userService) {
+    public RecordServiceImpl(RecordRepository repository, AuthFacade auth, UserProfileService userProsProfileService) {
         this.repository = repository;
         this.auth = auth;
-        this.userService = userService;
+        this.userProsProfileService = userProsProfileService;
     }
 
     public Page<Record> getRecords(String filterText, Date startDate, Date endDate, Pageable pageable) {
@@ -46,7 +46,7 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Record create(Record record) {
         String ownerId = auth.getUser().getUid();
-        User user = userService.getUserById(ownerId);
+        UserProfile user = userProsProfileService.getUserById(ownerId);
         // TODO: because of this for now Admin can't create something for someone
         record.setOwner(user);
 

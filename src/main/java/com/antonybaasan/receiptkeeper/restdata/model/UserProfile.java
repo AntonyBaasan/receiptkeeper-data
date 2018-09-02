@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="userprofile")
+public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,7 +18,7 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private Set<Record> records;
 
-    public User() {
+    public UserProfile() {
     }
 
     public long getId() {
