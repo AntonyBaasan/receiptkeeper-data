@@ -1,6 +1,7 @@
 package com.antonybaasan.receiptkeeper.restdata.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -8,10 +9,12 @@ public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotNull
     private String title;
     private String description;
     private String imageUrl;
     private Date date;
+    @NotNull
     private Date insertedDate;
     private double total;
     private String[] tags;
