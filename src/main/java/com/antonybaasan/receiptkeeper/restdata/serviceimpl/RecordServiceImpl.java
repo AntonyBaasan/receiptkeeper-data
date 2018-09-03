@@ -75,7 +75,8 @@ public class RecordServiceImpl implements RecordService {
         Record record = this.repository.findById(id).get();
 
         String currentUserId = auth.getUser().getUid();
-        if (!record.getOwner().equals(currentUserId)) {
+        long userId = Long.parseLong(currentUserId);
+        if (record.getOwner().getId() != userId) {
             throw new IllegalAccessException();
         }
 

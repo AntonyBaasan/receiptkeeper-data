@@ -96,11 +96,11 @@ public class RecordServiceTests {
 
     @Test
     public void update_RecordNotBelongUser_Fail() {
-        Throwable e = null;
         Record record = new Record();
         record.setOwner(createUserProfile(2));
         when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
 
+        Throwable e = null;
         try {
             recordService.update(record);
         } catch (Throwable ex) {
@@ -108,6 +108,35 @@ public class RecordServiceTests {
         }
         Assert.assertTrue(e instanceof IllegalAccessException);
     }
+
+    @Test
+    public void getRecords_Success() throws IllegalAccessException {
+        Record record = new Record();
+        record.setOwner(currentUserProfile);
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+
+        Record result = recordService.getRecord(record.getId());
+
+        Assert.assertSame(record, result);
+    }
+
+    @Test
+    public void getRecords_InvalidOwnerId_Success() {
+        Record record = new Record();
+        record.setOwner(createUserProfile(2));
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+
+        Throwable e = null;
+        try {
+            Record result = recordService.getRecord(record.getId());
+        } catch (Throwable ex) {
+            e = ex;
+        }
+        Assert.assertTrue(e instanceof IllegalAccessException);
+    }
+
+
+
 
 //    @Test
 //    public void removeSingleReceipt_Success() {
