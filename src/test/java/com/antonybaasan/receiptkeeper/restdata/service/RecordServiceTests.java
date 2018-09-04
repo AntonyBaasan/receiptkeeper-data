@@ -121,7 +121,7 @@ public class RecordServiceTests {
     }
 
     @Test
-    public void getRecords_InvalidOwnerId_Success() {
+    public void getRecords_InvalidOwnerId_Fail() {
         Record record = new Record();
         record.setOwner(createUserProfile(2));
         when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
@@ -135,6 +135,36 @@ public class RecordServiceTests {
         Assert.assertTrue(e instanceof IllegalAccessException);
     }
 
+    @Test
+    public void deleteRecord_Success() {
+        Record record1 = createRecord(1, currentUserProfile);
+
+        when(repositoryMock.findById(record1.getId())).thenReturn(Optional.of(record1));
+         recordService.d
+        verify(this.repositoryMock,
+                times(1)).save(record);
+
+        Throwable e = null;
+        try {
+            Record result = recordService.deleteRecord(record1.getId());
+        } catch (Throwable ex) {
+            e = ex;
+        }
+        Assert.assertTrue(e instanceof IllegalAccessException);
+    }
+
+    private Record createRecord(long id){
+        Record record = new Record();
+        record.setId(id);
+        return record;
+    }
+
+    private Record createRecord(long id, UserProfile userProfile){
+        Record record = new Record();
+        record.setId(id);
+        record.setOwner(userProfile);
+        return record;
+    }
 
 
 
