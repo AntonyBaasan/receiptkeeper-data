@@ -109,7 +109,8 @@ public class RecordServiceImpl implements RecordService {
         }
         Record oldRecord = oldRecordOptional.get();
         String currentUserId = auth.getUser().getUid();
-        if (!oldRecord.equals(currentUserId)) {
+        long userId = Long.parseLong(currentUserId);
+        if (oldRecord.getOwner().getId() != userId) {
             throw new IllegalAccessException();
         }
         this.repository.delete(oldRecord);

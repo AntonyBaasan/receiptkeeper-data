@@ -16,7 +16,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static java.util.Optional.ofNullable;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -140,17 +139,14 @@ public class RecordServiceTests {
         Record record1 = createRecord(1, currentUserProfile);
 
         when(repositoryMock.findById(record1.getId())).thenReturn(Optional.of(record1));
-         recordService.d
-        verify(this.repositoryMock,
-                times(1)).save(record);
 
         Throwable e = null;
         try {
-            Record result = recordService.deleteRecord(record1.getId());
+            recordService.deleteRecord((long) 1);
         } catch (Throwable ex) {
             e = ex;
         }
-        Assert.assertTrue(e instanceof IllegalAccessException);
+        verify(this.repositoryMock, times(1)).delete(record1);
     }
 
     private Record createRecord(long id){
