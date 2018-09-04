@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class RecordServiceTests {
     }
 
     @Test
-    public void createSingleReceipt_Success() {
+    public void create_Success() {
         Record record = new Record();
         recordService.create(record);
         verify(this.repositoryMock,
@@ -120,23 +121,44 @@ public class RecordServiceTests {
     }
 
     @Test
-    public void getRecords_InvalidOwnerId_Fail() {
-        Record record = new Record();
-        record.setOwner(createUserProfile(2));
-        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+    public void getRecords_InvalidUser_Fail() {
+        Record record1 = createRecord(1, createUserProfile(2));
+
+        when(repositoryMock.findById(record1.getId())).thenReturn(Optional.of(record1));
 
         Throwable e = null;
         try {
-            Record result = recordService.getRecord(record.getId());
+            recordService.getRecord((long) 1);
         } catch (Throwable ex) {
             e = ex;
         }
         Assert.assertTrue(e instanceof IllegalAccessException);
     }
 
+
     @Test
-    public void deleteRecord_Success() {
-        Record record1 = createRecord(1, currentUserProfile);
+    public void deleteRecord_Success() throws IllegalAccessException, NotFoundException {
+        Record record = createRecord(1, currentUserProfile);
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+
+        recordService.deleteRecord(record.getId());
+
+        verify(this.repositoryMock,
+                times(1)).delete(record);
+    }
+
+    @Test
+    public void deleteRecord_ReturnOldRecord_Success() throws IllegalAccessException, NotFoundException {
+        Record record = createRecord(1, currentUserProfile);
+        when(repositoryMock.findById(record.getId())).thenReturn(Optional.of(record));
+
+        Record result = recordService.deleteRecord(record.getId());
+        Assert.assertSame(result, record);
+    }
+
+    @Test
+    public void deleteRecord_InvalidUser_Fail() {
+        Record record1 = createRecord(1, createUserProfile(2));
 
         when(repositoryMock.findById(record1.getId())).thenReturn(Optional.of(record1));
 
@@ -146,22 +168,36 @@ public class RecordServiceTests {
         } catch (Throwable ex) {
             e = ex;
         }
-        verify(this.repositoryMock, times(1)).delete(record1);
+        Assert.assertTrue(e instanceof IllegalAccessException);
     }
 
-    private Record createRecord(long id){
+    @Test
+    public void deleteRecord_NoRecord_Fail() {
+        Record record1 = createRecord(1, currentUserProfile);
+
+        when(repositoryMock.findById(record1.getId())).thenReturn(Optional.empty());
+
+        Throwable e = null;
+        try {
+            recordService.deleteRecord((long) 1);
+        } catch (Throwable ex) {
+            e = ex;
+        }
+        Assert.assertTrue(e instanceof NotFoundException);
+    }
+
+    private Record createRecord(long id) {
         Record record = new Record();
         record.setId(id);
         return record;
     }
 
-    private Record createRecord(long id, UserProfile userProfile){
+    private Record createRecord(long id, UserProfile userProfile) {
         Record record = new Record();
         record.setId(id);
         record.setOwner(userProfile);
         return record;
     }
-
 
 
 //    @Test
