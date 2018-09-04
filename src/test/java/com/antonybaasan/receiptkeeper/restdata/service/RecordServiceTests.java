@@ -13,10 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.Optional;
 
+import static com.antonybaasan.receiptkeeper.restdata.TestUtils.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,13 +45,7 @@ public class RecordServiceTests {
         when(userProfileService.getUserById(currentUser.getUid())).thenReturn(currentUserProfile);
     }
 
-    private UserProfile createUserProfile(long id) {
-        UserProfile userProfile = new UserProfile();
-        userProfile.setId(id);
-        userProfile.setFirstName("Antony");
-        userProfile.setLastName("Baasan");
-        return userProfile;
-    }
+
 
     @Test
     public void create_Success() {
@@ -186,18 +180,7 @@ public class RecordServiceTests {
         Assert.assertTrue(e instanceof NotFoundException);
     }
 
-    private Record createRecord(long id) {
-        Record record = new Record();
-        record.setId(id);
-        return record;
-    }
 
-    private Record createRecord(long id, UserProfile userProfile) {
-        Record record = new Record();
-        record.setId(id);
-        record.setOwner(userProfile);
-        return record;
-    }
 
 
 //    @Test

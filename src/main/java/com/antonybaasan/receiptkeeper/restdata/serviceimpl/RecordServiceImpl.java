@@ -9,6 +9,7 @@ import com.antonybaasan.receiptkeeper.restdata.service.UserProfileService;
 import com.antonybaasan.receiptkeeper.restdata.utils.RecordSpecification;
 import com.antonybaasan.receiptkeeper.restdata.utils.SearchCriteria;
 import javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class RecordServiceImpl implements RecordService {
 
     private RecordRepository repository;
+    @Autowired
     private AuthFacade auth;
     private UserProfileService userProsProfileService;
 
