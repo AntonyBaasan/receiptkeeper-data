@@ -45,8 +45,6 @@ public class RecordServiceTests {
         when(userProfileService.getUserById(currentUser.getUid())).thenReturn(currentUserProfile);
     }
 
-
-
     @Test
     public void create_Success() {
         Record record = new Record();
@@ -129,7 +127,6 @@ public class RecordServiceTests {
         Assert.assertTrue(e instanceof IllegalAccessException);
     }
 
-
     @Test
     public void deleteRecord_Success() throws IllegalAccessException, NotFoundException {
         Record record = createRecord(1, currentUserProfile);
@@ -180,40 +177,4 @@ public class RecordServiceTests {
         Assert.assertTrue(e instanceof NotFoundException);
     }
 
-
-
-
-//    @Test
-//    public void removeSingleReceipt_Success() {
-//        Receipt receipt = new Receipt(1, currentUser.getUid());
-//
-//        when(authMock.getUser()).thenReturn(currentUser);
-//
-//        when(repositoryMock.findById(receipt.getId())).thenReturn(ofNullable(receipt));
-//
-//        Optional<Receipt> returned = this.recordService.delete(receipt.getId());
-//
-//        verify(this.repositoryMock, times(1)).delete(receipt);
-//        Assert.assertEquals(receipt.getId(), returned.get().getId());
-//    }
-//
-//    @Test(expected = IllegalAccessException.class)
-//    public void testThrowExceptionIfWrongOwnerId() throws IllegalAccessException, NotFoundException {
-//        Receipt receipt = new Receipt(1, "owner2");
-//
-//        when(authMock.getUser()).thenReturn(currentUser);
-//        when(repositoryMock.findById(receipt.getId())).thenReturn(ofNullable(receipt));
-//
-//        this.recordService.delete(receipt.getId());
-//    }
-//
-//    @Test(expected = NotFoundException.class)
-//    public void testThrowExceptionIfCantFindReceipt() throws IllegalAccessException, NotFoundException {
-//        Receipt receipt = new Receipt(1, currentUser.getUid());
-//
-//        when(authMock.getUser()).thenReturn(currentUser);
-//        when(repositoryMock.findById(receipt.getId())).thenReturn(ofNullable(null));
-//
-//        this.recordService.delete(receipt.getId());
-//    }
 }

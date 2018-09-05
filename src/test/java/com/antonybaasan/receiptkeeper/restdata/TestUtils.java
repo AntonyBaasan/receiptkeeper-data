@@ -24,8 +24,4 @@ public class TestUtils {
         userProfile.setLastName("Baasan");
         return userProfile;
     }
-
-
-
-
 }

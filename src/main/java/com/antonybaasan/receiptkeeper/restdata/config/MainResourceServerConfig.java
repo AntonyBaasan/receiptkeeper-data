@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-public class MainConfig extends ResourceServerConfigurerAdapter {
+public class MainResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -54,7 +54,11 @@ public class MainConfig extends ResourceServerConfigurerAdapter {
         Resource resource = resourceLoader.getResource("classpath:" + this.firebaseSecretfileClassPath);
         FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
                 .setDatabaseUrl(this.firebaseDatabaseUrl).build();
-        return FirebaseApp.initializeApp(options);
+
+        if(FirebaseApp.getApps().size() == 0)
+            return FirebaseApp.initializeApp(options);
+
+        return FirebaseApp.getInstance();
     }
 
 
