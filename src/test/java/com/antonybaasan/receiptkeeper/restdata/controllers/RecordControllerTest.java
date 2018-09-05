@@ -30,7 +30,6 @@ public class RecordControllerTest {
     private String firebasePrivateKey;
     @MockBean
     private RecordService recordService;
-
     @Autowired
     public MockMvc mockMvc;
 
