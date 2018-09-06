@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class RecordControllerTest {
-    @Value("${firebase.privatekey}")
+    @Value("${FIREBASE_PRIVATEKEY}")
     private String firebasePrivateKey;
     @MockBean
     private RecordService recordService;
