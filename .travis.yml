@@ -9,10 +9,9 @@ before_install:
 - ls $TRAVIS_BUILD_DIR/src/main/resources
 script:
 - mvn -N io.takari:maven:wrapper
-- "./mvnw cobertura:cobertura"
 - "./mvnw install -DskipTests=false -Dmaven.javadoc.skip=true -B -V"
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+- mvn clean test jacoco:report coveralls:report
 cache:
   directories:
   - "$HOME/.m2"

@@ -20,7 +20,7 @@ import static com.antonybaasan.receiptkeeper.restdata.TestUtils.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RecordServiceTests {
+public class RecordServiceTest {
 
     RecordServiceImpl recordService;
 
