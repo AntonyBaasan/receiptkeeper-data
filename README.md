@@ -7,4 +7,7 @@
 # local build
 ./mvnw clean package -Ddockerfile.skip
 
+# remporary untrack test properties
+git update-index --assume-unchanged src\main\resources\application-test.properties
+
 ```
