@@ -66,4 +66,13 @@ public class RecordControllerTest {
                 .andExpect(content().string(""));
     }
 
+    @Test
+    public void getRecordById_WhenIllegalAccess_ReturnUnauthorized() throws Exception {
+        when(recordService.getRecord(2)).thenThrow(IllegalAccessException.class);
+
+        mockMvc.perform(get("/records/2")
+                .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isUnauthorized());
+    }
+
 }

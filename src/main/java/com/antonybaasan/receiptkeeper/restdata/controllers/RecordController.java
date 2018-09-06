@@ -39,7 +39,7 @@ public class RecordController {
         try {
             return new ResponseEntity<>(this.recordService.getRecord(id), HttpStatus.OK);
         } catch (IllegalAccessException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
